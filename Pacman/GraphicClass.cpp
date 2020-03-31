@@ -2,8 +2,18 @@
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_ttf.h>
 
-#define FONTSIZE 30
+#define FONTSIZE defaultWidth/20
 #define WAIT_TIME 2
+#define mouthThickness (defaultWidth/200)
+#define eyeRadius (defaultWidth/300)
+#define eyeDistanceX (defaultWidth/85)
+#define eyeDistanceY eyeRadius
+#define mouthDistanceX (defaultWidth/85)
+#define mouthDistanceY (defaultWidth/120)
+#define mouthLenght (defaultWidth/100)
+#define ghostEyeXDistance (defaultWidth/150)
+#define ghostEyeYDistance (defaultWidth/600)
+#define ghostEyeRadius (defaultWidth/300)
 
 //GraphicClass constructor.
 GraphicClass::GraphicClass(unsigned int width_, unsigned int height_, ALLEGRO_DISPLAY* display_) :
@@ -38,13 +48,24 @@ void GraphicClass::printInitialMessage() {
 //Draws game layout.
 void GraphicClass::drawGameLayout()
 {
-    al_draw_rectangle(50, 50, 275, 100, cageColor, lineThickness);
-    al_draw_rectangle(235, 180, 380, 280, cageColor, lineThickness);
-    al_draw_rectangle(330, 50, 550, 100, cageColor, lineThickness);
-    al_draw_rectangle(50, 180, 180, 280, cageColor, lineThickness);
-    al_draw_rectangle(430, 180, 550, 280, cageColor, lineThickness);
-    al_draw_rectangle(330, 350, 550, 450, cageColor, lineThickness);
-    al_draw_rectangle(50, 350, 275, 450, cageColor, lineThickness);
+
+    al_draw_rectangle(borderWidth, borderWidth, defaultWidth / 2 - borderWidth / 2, 
+        secondRowStartY-borderWidth,cageColor,lineThickness);
+   
+    al_draw_rectangle(defaultWidth/2 + borderWidth/2, borderWidth, defaultWidth - borderWidth, 
+        secondRowStartY-borderWidth, cageColor, lineThickness);
+    
+    al_draw_rectangle(borderWidth, secondRowStartY, secondRowStartX-borderWidth,
+        thirdRowStartY-borderWidth, cageColor, lineThickness);
+    
+    al_draw_rectangle(secondRowStartX,secondRowStartY,thirdRowStartX-borderWidth,
+        thirdRowStartY-borderWidth,cageColor, lineThickness);
+    
+    al_draw_rectangle(thirdRowStartX,secondRowStartY,defaultWidth-borderWidth, 
+        thirdRowStartY-borderWidth, cageColor, lineThickness);
+    
+    al_draw_rectangle(borderWidth, thirdRowStartY, defaultWidth - borderWidth, 
+        defaultHeight - borderWidth,cageColor,lineThickness);
 }
 
 //Draws Pacman.
@@ -118,8 +139,8 @@ ALLEGRO_DISPLAY* GraphicClass::getDisplay(void) { return display; }
 //Calls all the draw methods.
 void GraphicClass::drawAll(Position currentPacmanPosition, Position currentGhostPosition, vector<Position> circlePositions) {
     al_clear_to_color(backgroundColor);
-    drawPacman(currentPacmanPosition);
     drawCircles(circlePositions);
+    drawPacman(currentPacmanPosition);
     drawGameLayout();
     drawGhost(currentGhostPosition);
     al_flip_display();

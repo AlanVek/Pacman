@@ -7,29 +7,48 @@
 
 using namespace std;
 
-int posit_x[] = { 20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,580,580,580,580,580,580,
-580,580,580,580,580,580,580,580,580,580,580,580,580,580,300,300,300,300,300,300,300,300,300,300,300,300,20,
-48,76,104,132,160,188,216,244,272,300,328,356,384,412,440,468,496,524,552,580,20,48,76,104,132,160,188,216,
-244,272,300,328,356,384,412,440,468,496,524,552,580,20,48,76,104,132,160,188,216,244,272,300,328,356,384,
-412,440,468,496,524,552,580,20,48,76,104,132,160,188,216,244,272,300,328,356,384,412,440,468,496,524,552,
-580,216,216,216,216,216,216,412,412,412,412,412,412 };
-
-int posit_y[] = { 20,43,66,89,112,135,158,181,204,227,250,273,296,319,342,365,388,411,434,457,
-20,43,66,89,112,135,158,181,204,227,250,273,296,319,342,365,388,411,434,457,20,43,66,89,112,135,
-342,365,388,411,434,457,480,480,480,480,480,480,480,480,480,480,480,480,480,480,480,480,480,480,
-480,480,480,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,158,158,158,158,158,158,
-158,158,158,158,158,158,158,158,158,158,158,158,158,158,158,319,319,319,319,319,319,319,319,319,319,
-319,319,319,319,319,319,319,319,319,319,319,181,204,227,250,273,296,181,204,227,250,273,296 };
-
-
 //BackProcess constructor.
 BackProcess::BackProcess(void) {
 
 	Position myPosition;
 
-	for (int i = 0; i < circleAmount; i++) {
-		myPosition.x = posit_x[i];
-		myPosition.y = posit_y[i];
+	for (int i = 0; i < yAmount-1; i++) {
+
+		myPosition.x = borderWidth/2;
+		myPosition.y = (i + 1) * yStep;
+		circlePositions.push_back(myPosition);
+		myPosition.x = defaultWidth - borderWidth/2;
+		circlePositions.push_back(myPosition);
+	}
+	for (int i = 0; i < xAmount - 1; i++) {
+
+		myPosition.x = (i + 1) * xStep;
+		myPosition.y = borderWidth / 2;
+		circlePositions.push_back(myPosition);
+		myPosition.y = defaultHeight - borderWidth / 2;
+		circlePositions.push_back(myPosition);
+		if (!(i >= xAmount - 2) && !(i == 0)) {
+			myPosition.y = 1.5 * borderWidth + rectangleBaseHeight*firstRectanglesHeight;
+			circlePositions.push_back(myPosition);
+			myPosition.y = 2.5 * borderWidth + (firstRectanglesHeight+secondRectanglesHeight) * rectangleBaseHeight;
+			circlePositions.push_back(myPosition);
+		}
+	}
+
+	for (int i = borderWidth/2+yStep; i < borderWidth + firstRectanglesHeight*rectangleBaseHeight+yStep; i+=yStep) {
+
+		myPosition.x = defaultWidth / 2;
+		myPosition.y = i;
+		circlePositions.push_back(myPosition);
+	}
+	for (int i = 1.5 * borderWidth + yStep + firstRectanglesHeight*rectangleBaseHeight; 
+		i < 2.5 * borderWidth + (firstRectanglesHeight+secondRectanglesHeight) * rectangleBaseHeight; 
+		i += yStep) {
+
+		myPosition.x = 1.5*borderWidth + firstRectangleWidth2*rectangleBaseWidth;
+		myPosition.y = i;
+		circlePositions.push_back(myPosition);
+		myPosition.x = defaultWidth - myPosition.x;
 		circlePositions.push_back(myPosition);
 	}
 
@@ -152,7 +171,7 @@ bool BackProcess::readWriteLoop(void){
 			
 			if (!gamePaused)
 				//Updates ghost position.
-				logicControl.updateGhostPosition(ghostPosition);
+				logicControl.updateGhostPosition(ghostPosition,pacmanPosition);
 
 			//Does action depending on key pressed. If true, then [ESC] was pressed.
 			if (eventControl.keyboardEvent(logicControl, pacmanPosition, myKeyboardEvent, circlePositions, gamePaused))

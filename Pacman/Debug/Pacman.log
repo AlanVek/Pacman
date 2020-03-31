@@ -1,12 +1,3 @@
 ﻿  BackProcess.cpp
-C:\Users\alanv\source\repos\PACMAN\Pacman\BackProcess.cpp(144,33): warning C4101: 'myTimerEvent': variable local sin referencia
-  EventClass.cpp
-  GameLogic.cpp
-C:\Users\alanv\source\repos\PACMAN\Pacman\GameLogic.cpp(19,20): warning C4018: '<': no coinciden signed/unsigned
-  GraphicClass.cpp
-C:\Users\alanv\source\repos\PACMAN\Pacman\GraphicClass.cpp(59,23): warning C4018: '<': no coinciden signed/unsigned
-  SoundClass.cpp
-  TimeClass.cpp
-  main.cpp
-  Generando código...
+C:\Users\alanv\source\repos\PACMAN\Pacman\BackProcess.cpp(163,33): warning C4101: 'myTimerEvent': variable local sin referencia
   Pacman.vcxproj -> C:\Users\alanv\source\repos\PACMAN\Debug\Pacman.exe

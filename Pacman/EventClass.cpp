@@ -31,19 +31,19 @@ bool EventClass::keyboardEvent(GameLogic& logic, Position& currentPosition,ALLEG
 	//Action depending on key pressed.
 	switch (Event_.keyboard.keycode) {
 	case ALLEGRO_KEY_DOWN:
-		nextPosition.y += pacmanPase;
+		nextPosition.y += pacmanPace;
 		move = true;
 		break;
 	case ALLEGRO_KEY_UP:
-		nextPosition.y -= pacmanPase;
+		nextPosition.y -= pacmanPace;
 		move = true;
 		break;
 	case ALLEGRO_KEY_RIGHT:
-		nextPosition.x += pacmanPase;
+		nextPosition.x += pacmanPace;
 		move = true;
 		break;
 	case ALLEGRO_KEY_LEFT:
-		nextPosition.x -= pacmanPase;
+		nextPosition.x -= pacmanPace;
 		move = true;
 		break;
 	case ALLEGRO_KEY_SPACE:
@@ -60,20 +60,13 @@ bool EventClass::keyboardEvent(GameLogic& logic, Position& currentPosition,ALLEG
 	if (move) {
 
 		//If movement is valid...
-		if (logic.canMove(nextPosition)) {
+		if (logic.canMove(nextPosition,pacmanRadius)) {
 
 			//Changes pacman position.
 			currentPosition = nextPosition;
 
 			/*Makes pacman appear out the othe end in case it went out of the screen. */
-			if (nextPosition.x >= (defaultWidth + pacmanRadius))
-				currentPosition.x -= defaultWidth;
-			else if (nextPosition.x < pacmanRadius)
-				currentPosition.x += defaultWidth;
-			if (nextPosition.y < pacmanRadius)
-				currentPosition.y += defaultHeight;
-			else if (nextPosition.y >= (defaultHeight + pacmanRadius))
-				currentPosition.y -= defaultHeight;
+			logic.correctPosition(currentPosition, pacmanRadius);
 
 			//Checks for eaten fruits.
 			logic.eatCircle(circlePositions, currentPosition);

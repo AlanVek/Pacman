@@ -10,6 +10,8 @@ int main()
     bool endOfInput = false;
     bool userExit = false;
 
+    srand(time(NULL));
+
     BackProcess g;
 
     //Sets sound file names for initial sound and death sound.
@@ -82,7 +84,7 @@ int main()
            /*If timer made a lap, ghostPosition gets updated and drawn.
            Then checks if the game has been lost. */
            if (g.getEventControl().getNextGeneralEvent() == ALLEGRO_EVENT_TIMER) {
-               g.getLogicControl().updateGhostPosition(g.getCurrentGhostPosition());
+               g.getLogicControl().updateGhostPosition(g.getCurrentGhostPosition(),g.getCurrentPosition());
                g.drawItAll();
                userExit = g.getLogicControl().checkIfLost(g.getCurrentPosition(), g.getCurrentGhostPosition());
                
